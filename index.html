@@ -1,0 +1,34 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style type="text/css">
+        #gauge{
+            height: 500px;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="gauge"></div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="//cdn.jsdelivr.net/raphael/2.1.2/raphael-min.js"></script>
+        <script src="//cdn.jsdelivr.net/justgage/1.0.1/justgage.min.js"></script>
+        <script>
+            var g = new JustGage({
+                id: "gauge",
+                value: 0,
+                min: -20,
+                max: +20,
+                title: "Christmas Cheer",
+                relativeGaugeSize: true
+            });
+            var socket = io.connect('http://localhost');
+                socket.on('stream', function (data) {
+                    console.log(data.sentiment);
+                    g.refresh(data.sentiment.score);
+                }
+            );
+        </script>
+    </body>
+</html>
