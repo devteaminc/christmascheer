@@ -12,6 +12,7 @@
     </head>
     <body>
         <div id="gauge"></div>
+        <div>Average score from <span id="tweetTotal"></span> tweets</div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="//cdn.jsdelivr.net/raphael/2.1.2/raphael-min.js"></script>
         <script src="//cdn.jsdelivr.net/justgage/1.0.1/justgage.min.js"></script>
@@ -27,6 +28,7 @@
             var socket = io();
                 socket.on('stream', function (data) {
                     g.refresh(data.sentiment);
+                    document.getElementById('tweetTotal').innerHTML = data.totalTweets;
                 }
             );
         </script>

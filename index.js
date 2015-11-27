@@ -57,7 +57,8 @@ io.on('connection', function (socket){
         // emit streamed results to frontend socket
         io.emit('stream',{
           tweet: tweet,
-          sentiment: adjustedScore
+          sentiment: adjustedScore,
+          totalTweets: totalTweets
         });
 
       } 
