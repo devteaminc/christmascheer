@@ -25,9 +25,19 @@
                 title: "Christmas Cheer",
                 relativeGaugeSize: true
             });
+
+            var sentimentStore = 0;
+
             var socket = io();
                 socket.on('stream', function (data) {
-                    g.refresh(data.sentiment);
+
+                    console.log(data);
+
+                    // only refresh graph if score has changed
+                    if(data.sentiment != sentimentStore){
+                        g.refresh(data.sentiment);
+                        sentimentStore = data.sentiment;
+                    }
                     document.getElementById('tweetTotal').innerHTML = data.totalTweets;
                 }
             );

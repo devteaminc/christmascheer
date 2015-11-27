@@ -1,6 +1,8 @@
+// load environment variables
 require('dotenv').load();
 var http = require('http'); 
-var express = require('express');  
+var express = require('express');
+var request = require('request');  
 var sentiment = require('sentiment');
 var app = express();  
 var twitter = require('twitter');
@@ -25,20 +27,35 @@ app.get(/^(.+)$/, function(req, res) {
   res.sendFile(__dirname + req.params[0]); 
 });
 
+function tweetUrl(user,tweet){
+  var tweetstr = "http://twitter.com/{USER}/status/{TWEET_ID}";
+  return tweetstr.replace("{USER}",user).replace("{TWEET_ID}",tweet);
+}
+
+
 // open socket connection
 io.on('connection', function (socket){
 
-  // array of terms to trackList
-  var trackList = 'christmas';
   var lastTweetId = null;
   var totalTweets = 0;
   var totalScore = 0;
   var adjustedScore = 0;
+  var positive = 0;
+  var neutral = 0;
+  var negative = 0;
+  var positiveTweet;
+  var negativeTweet;
+  var startTime = Math.floor(Date.now() / 1000);
+
 
   // open stream to Twitter
-  client.stream('statuses/filter', {track: trackList}, function(stream) {
+  client.stream('statuses/filter', {track: 'christmas'}, function(stream) {
     stream.on('data', function(tweet) {
 
+      /**
+       * track last tweet sent so we can make sure it is only sent once
+       * Twitter streaming API has a habit of sending duplicate tweets through
+       */
       if(lastTweetId === null){
         lastTweetId = tweet.id_str;
       }
@@ -51,14 +68,58 @@ io.on('connection', function (socket){
         totalScore += tweetSentiment.score;
         adjustedScore = parseFloat((totalScore / totalTweets)).toFixed(2);
 
-        console.log("score: " + tweetSentiment.score);
-        console.log("total: " +adjustedScore);
+        // calculate time since data started coming through
+        var timenow = Math.floor(Date.now() / 1000);
+        var elapsedtime = (timenow - startTime); 
+
+        // console.log("score: " + tweetSentiment.score);
+        // console.log("total: " +adjustedScore);
+        // console.log("seconds: " +elapsedtime);
+        // console.log(tweet.user.id_str);
+        
+        var url = false;
+
+        if(tweetSentiment.score > 0){
+          positive+=1;
+
+          if(tweetSentiment.score > 4){
+            positiveTweet = tweetUrl(tweet.user.id_str,tweet.id_str);
+            url = true;
+          }
+
+
+        } else if(tweetSentiment.score < 0){
+          negative+=1;
+
+          if(tweetSentiment.score < -2){
+            negativeTweet = tweetUrl(tweet.user.id_str,tweet.id_str);
+            url = true;
+          }
+
+        } else {
+          neutral+=1;
+        }
+
+        if(url === true){
+          var embed = request('https://api.twitter.com/1/statuses/oembed.json?url='+positiveTweet, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+              var info = JSON.parse(body);
+              var embed = info.html;
+            }
+          });
+        }
+        
 
         // emit streamed results to frontend socket
         io.emit('stream',{
           tweet: tweet,
           sentiment: adjustedScore,
-          totalTweets: totalTweets
+          totalTweets: totalTweets,
+          positive: positive,
+          neutral: neutral,
+          negative: negative,
+          positiveTweet: positiveTweet,
+          negativeTweet: negativeTweet
         });
 
       } 
@@ -66,7 +127,8 @@ io.on('connection', function (socket){
     });
    
     stream.on('error', function(error) {
-      throw error;
+      console.log(error);
+      //throw error;
     });
   });
 });
