@@ -29,7 +29,7 @@ app.get(/^(.+)$/, function(req, res) {
 io.on('connection', function (socket){
 
   // array of terms to trackList
-  var trackList = 'thanksgiving';
+  var trackList = 'christmas';
   var lastTweetId = null;
   var totalTweets = 0;
   var totalScore = 0;
