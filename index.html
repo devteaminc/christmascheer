@@ -9,9 +9,27 @@
             height: 500px;
         }
         </style>
+        <script>window.twttr = (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+          if (d.getElementById(id)) return t;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "https://platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js, fjs);
+         
+          t._e = [];
+          t.ready = function(f) {
+            t._e.push(f);
+          };
+         
+          return t;
+        }(document, "script", "twitter-wjs"));</script>
     </head>
     <body>
         <div id="gauge"></div>
+        <div id="positive-tweet"></div>
+        <div id="negative-tweet"></div>
         <div>Average score from <span id="tweetTotal"></span> tweets</div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="//cdn.jsdelivr.net/raphael/2.1.2/raphael-min.js"></script>
@@ -29,9 +47,7 @@
             var sentimentStore = 0;
 
             var socket = io();
-                socket.on('stream', function (data) {
-
-                    console.log(data);
+            socket.on('scores', function (data) {
 
                     // only refresh graph if score has changed
                     if(data.sentiment != sentimentStore){
@@ -40,7 +56,17 @@
                     }
                     document.getElementById('tweetTotal').innerHTML = data.totalTweets;
                 }
+
             );
+
+            socket.on('positive-tweet', function (data) {
+                document.getElementById('positive-tweet').style.display = 'none';
+                document.getElementById('positive-tweet').innerHTML = data.positiveTweet;
+                twttr.widgets.load(
+                  document.getElementById("positive-tweet")
+                );
+                document.getElementById('positive-tweet').style.display = '';
+            });
         </script>
     </body>
 </html>

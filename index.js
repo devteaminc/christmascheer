@@ -27,9 +27,9 @@ app.get(/^(.+)$/, function(req, res) {
   res.sendFile(__dirname + req.params[0]); 
 });
 
-function tweetUrl(user,tweet){
+function getTweetUrl(user,tweet){
   var tweetstr = "http://twitter.com/{USER}/status/{TWEET_ID}";
-  return tweetstr.replace("{USER}",user).replace("{TWEET_ID}",tweet);
+  return tweetstr.replace("{USER}",user).replace("{TWEET_ID}",tweet); 
 }
 
 
@@ -77,49 +77,62 @@ io.on('connection', function (socket){
         // console.log("seconds: " +elapsedtime);
         // console.log(tweet.user.id_str);
         
-        var url = false;
+        var positiveTweet = false;
+        var negativeTweet = false;
 
         if(tweetSentiment.score > 0){
           positive+=1;
 
-          if(tweetSentiment.score > 4){
-            positiveTweet = tweetUrl(tweet.user.id_str,tweet.id_str);
-            url = true;
+          if(tweetSentiment.score > 8){
+            positiveTweet = true;
           }
 
 
         } else if(tweetSentiment.score < 0){
           negative+=1;
 
-          if(tweetSentiment.score < -2){
-            negativeTweet = tweetUrl(tweet.user.id_str,tweet.id_str);
-            url = true;
+          if(tweetSentiment.score < -8){
+            negativeTweet = true;
           }
 
         } else {
           neutral+=1;
         }
 
-        if(url === true){
-          var embed = request('https://api.twitter.com/1/statuses/oembed.json?url='+positiveTweet, function (error, response, body) {
+        if(positiveTweet === true || negativeTweet === true){
+
+          var tweetstr = getTweetUrl(tweet.user.screen_name,tweet.id_str);
+
+          //console.log(tweetstr);
+
+          request('https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url='+tweetstr, function (error, response, body) {
             if (!error && response.statusCode == 200) {
+
               var info = JSON.parse(body);
               var embed = info.html;
+
+              if(positiveTweet === true){
+                io.emit('positive-tweet',{
+                    positiveTweet: embed
+                });  
+              } else {
+                io.emit('negative-tweet',{
+                    negativeTweet: embed
+                });  
+              }
             }
           });
         }
         
 
         // emit streamed results to frontend socket
-        io.emit('stream',{
+        io.emit('scores',{
           tweet: tweet,
           sentiment: adjustedScore,
           totalTweets: totalTweets,
           positive: positive,
           neutral: neutral,
-          negative: negative,
-          positiveTweet: positiveTweet,
-          negativeTweet: negativeTweet
+          negative: negative
         });
 
       } 
