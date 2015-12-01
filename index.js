@@ -68,7 +68,6 @@ var adjustedScore = 0;
 var positive = 0;
 var neutral = 0;
 var negative = 0;
-var displayed = [];
 var startTime = Math.floor(Date.now() / 1000);
 
 // track christmas
@@ -81,8 +80,6 @@ tw.on('error', function (err) {
 
 // tweet event
 tw.on('tweet',function(tweet){
-
-  //console.log(tweet.retweeted_status);
 
   /**
    * track last tweet sent so we can make sure it is only sent once
@@ -143,26 +140,18 @@ tw.on('tweet',function(tweet){
       request('https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url='+tweetstr, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
-          if(displayed.indexOf(tweet.id_str) === -1 ){
-
-            displayed.push(tweet.id_str);
-
             var info = JSON.parse(body);
             var embed = info.html;
 
             if(positiveTweet === true){
               io.emit('positive-tweet',{
-                  positiveTweet: embed,
-                  tweetId: tweet.id_str
+                  positiveTweet: embed
               });  
             } else {
               io.emit('negative-tweet',{
-                  negativeTweet: embed,
-                  tweetId: tweet.id_str
+                  negativeTweet: embed
               });  
             }
-
-          }
         }
       });
     }
