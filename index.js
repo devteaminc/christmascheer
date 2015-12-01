@@ -36,9 +36,12 @@ function spamTweet(sourceString) {
     'rt & follow',
     'rt + follow',
     'retweet & follow',
+    'retweet',
     'win',
     'contest',
-    'giveaway'
+    'giveaway',
+    'giftideas',
+    'perfect gift'
   ];
   
   var found = false;
