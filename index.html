@@ -4,11 +4,8 @@
         <meta charset="utf-8">
         <title>Christmas Cheer</title>
         <link rel="icon" href="favicon.png" type="image/png">
-        <style type="text/css">
-        #gauge{
-            height: 500px;
-        }
-        </style>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+        <link href="cheer.css" rel="stylesheet">
         <script>window.twttr = (function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0],
           t = window.twttr || {};
@@ -27,46 +24,29 @@
         }(document, "script", "twitter-wjs"));</script>
     </head>
     <body>
-        <div id="gauge"></div>
-        <div id="positive-tweet"></div>
-        <div id="negative-tweet"></div>
-        <div>Average score from <span id="tweetTotal"></span> tweets</div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h2>Good Vibes</h2>
+                <div id="positive-tweet" class="tweet">
+                    <img src="loading.gif" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="gauge"></div>   
+                <p class="lead text-center">Average score from <strong id="tweetTotal"></strong> tweets</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <h2>Bad Vibes</h2>
+                <div id="negative-tweet" class="tweet">
+                    <img src="loading.gif" />
+                </div>        
+            </div>
+        </div>
+        
+        
         <script src="/socket.io/socket.io.js"></script>
         <script src="//cdn.jsdelivr.net/raphael/2.1.2/raphael-min.js"></script>
         <script src="//cdn.jsdelivr.net/justgage/1.0.1/justgage.min.js"></script>
-        <script>
-            var g = new JustGage({
-                id: "gauge",
-                value: 0,
-                min: -10,
-                max: +10,
-                title: "Christmas Cheer",
-                relativeGaugeSize: true
-            });
-
-            var sentimentStore = 0;
-
-            var socket = io();
-            socket.on('scores', function (data) {
-
-                    // only refresh graph if score has changed
-                    if(data.sentiment != sentimentStore){
-                        g.refresh(data.sentiment);
-                        sentimentStore = data.sentiment;
-                    }
-                    document.getElementById('tweetTotal').innerHTML = data.totalTweets;
-                }
-
-            );
-
-            socket.on('positive-tweet', function (data) {
-                document.getElementById('positive-tweet').style.display = 'none';
-                document.getElementById('positive-tweet').innerHTML = data.positiveTweet;
-                twttr.widgets.load(
-                  document.getElementById("positive-tweet")
-                );
-                document.getElementById('positive-tweet').style.display = '';
-            });
-        </script>
+        <script src="front.js"></script>
     </body>
 </html>
