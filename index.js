@@ -90,7 +90,7 @@ tw.on('tweet',function(tweet){
   }
 
   var isSpamTweet = spamTweet(tweet.text);
-  var isRetweet = (tweet.retweeted_status === undefined) ? true : false;
+  var isRetweet = (tweet.retweeted_status !== undefined) ? true : false;
   var isMention = (tweet.text.charAt(0) === '@') ? true : false;
 
   if(tweet.id_str !== lastTweetId && (isSpamTweet === false) && (isRetweet === false) && (isMention === false)){
@@ -149,11 +149,13 @@ tw.on('tweet',function(tweet){
 
             if(positiveTweet === true){
               io.emit('positive-tweet',{
-                  positiveTweet: embed
+                  positiveTweet: embed,
+                  tweetId: tweet.id_str
               });  
             } else {
               io.emit('negative-tweet',{
-                  negativeTweet: embed
+                  negativeTweet: embed,
+                  tweetId: tweet.id_str
               });  
             }
 

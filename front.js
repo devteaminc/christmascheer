@@ -1,8 +1,8 @@
 var g = new JustGage({
     id: "gauge",
     value: 0,
-    min: -10,
-    max: +10,
+    min: 0,
+    max: +3,
     title: "Christmas Cheer",
     relativeGaugeSize: true
 });
