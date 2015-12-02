@@ -2,12 +2,29 @@
 require('dotenv').load();
 var http = require('http'); 
 var express = require('express');
+var path = require('path');
 var request = require('request');  
+var favicon = require('serve-favicon');  
 var sentiment = require('sentiment');
 var app = express();  
 var twitter = require('node-tweet-stream');
 var server = http.createServer(app).listen(process.env.PORT || 5000);
 var io = require('socket.io').listen(server);
+
+// routes
+var routes = require('./routes/index');
+
+// views
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// favicon and static asset serving
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.png')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+
+module.exports = app;
 
 // twitter credentials - loaded from .env file when local
 var tw = new twitter({
@@ -15,16 +32,6 @@ var tw = new twitter({
   consumer_secret: process.env.consumer_secret,
   token: process.env.access_token,
   token_secret: process.env.access_token_secret
-});
-
-// routing for homepage
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-// routing for every other request
-app.get(/^(.+)$/, function(req, res) { 
-  res.sendFile(__dirname + req.params[0]); 
 });
 
 function spamTweet(sourceString) {
@@ -81,10 +88,10 @@ tw.on('error', function (err) {
 // tweet event
 tw.on('tweet',function(tweet){
 
-  /**
-   * track last tweet sent so we can make sure it is only sent once
-   * Twitter streaming API has a habit of sending duplicate tweets through
-   */
+  
+   // track last tweet sent so we can make sure it is only sent once
+   // Twitter streaming API has a habit of sending duplicate tweets through
+   
   if(lastTweetId === null){
     lastTweetId = tweet.id_str;
   }

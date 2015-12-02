@@ -1,0 +1,29 @@
+extends layout
+
+block headcontent
+	link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==', crossorigin='anonymous')
+	script
+		include partials/twitter.js
+
+block content
+	div.row
+		div.col-md-4.text-center
+			h2 Good Vibes
+			div#positive-tweet.tweet
+				img(src='/images/loading.gif')
+		div.col-md-4
+			div#gauge
+			p.lead.text-center 
+				| Average score from 
+				strong#tweetTotal
+				|  tweets
+		div.col-md-4.text-center
+			h2 Bad Vibes
+			div#negative-tweet.tweet
+				img(src='/images/loading.gif')
+
+
+	script(src='/socket.io/socket.io.js')
+	script(src='//cdn.jsdelivr.net/raphael/2.1.2/raphael-min.js')
+	script(src='//cdn.jsdelivr.net/justgage/1.0.1/justgage.min.js')
+	script(src='/javascript/front.js')
