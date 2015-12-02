@@ -45,9 +45,6 @@ function addTweet(name,twId,twContent){
 
     // create new element
     var newTweet = '<li id="'+tweetId+'">'+twContent+'</li>';
-    
-    // add element to list
-    prependListItem(name+'-tweet',newTweet);
 
     // prepend to list
     $(newTweet).hide().prependTo('#'+name+'-tweet').fadeIn();
