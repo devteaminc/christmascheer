@@ -13,6 +13,9 @@ var data = {
 
 // This will get the first returned node in the jQuery collection.
 var myBarChart = new Chart(ctx).Bar(data);
+myBarChart.datasets[0].bars[0].fillColor = "red"; //bar 1
+myBarChart.datasets[0].bars[1].fillColor = "orange"; //bar 2
+myBarChart.datasets[0].bars[2].fillColor = "green"; //bar 3
 
 var sentimentStore = 0;
 
