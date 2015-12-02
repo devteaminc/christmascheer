@@ -98,9 +98,10 @@ tw.on('tweet',function(tweet){
 
   var isSpamTweet = spamTweet(tweet.text);
   var isRetweet = (tweet.retweeted_status !== undefined) ? true : false;
+  var isQuoted = (tweet.quoted_status_id !== undefined) ? true : false;
   var isMention = (tweet.text.charAt(0) === '@') ? true : false;
 
-  if(tweet.id_str !== lastTweetId && (isSpamTweet === false) && (isRetweet === false) && (isMention === false)){
+  if(tweet.id_str !== lastTweetId && (isSpamTweet === false) && (isRetweet === false) && (isMention === false) && (isQuoted === false)){
 
     var tweetSentiment = sentiment(tweet.text);
     lastTweetId = tweet.id_str;
@@ -144,7 +145,7 @@ tw.on('tweet',function(tweet){
       var tweetstr = getTweetUrl(tweet.user.screen_name,tweet.id_str);
 
 
-      request('https://api.twitter.com/1/statuses/oembed.json?hide_media=true&omit_script=true&url='+tweetstr, function (error, response, body) {
+      request('https://api.twitter.com/1/statuses/oembed.json?conversation=none&omit_script=true&url='+tweetstr, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             var info = JSON.parse(body);
