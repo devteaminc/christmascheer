@@ -23,7 +23,6 @@ app.use(favicon(path.join(__dirname, 'public/images', 'favicon.png')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-
 module.exports = app;
 
 // twitter credentials - loaded from .env file when local
@@ -35,7 +34,6 @@ var tw = new twitter({
 });
 
 function spamTweet(sourceString) {
-  
   var subStrings = [
     'competition',
     'rt & follow',
@@ -44,8 +42,8 @@ function spamTweet(sourceString) {
     'rt + follow',
     'retweet & follow',
     'retweet',
-    'win',
-    'contest',
+    'win ',
+    'contest ',
     'giveaway',
     'giftideas',
     'perfect gift'
@@ -58,8 +56,14 @@ function spamTweet(sourceString) {
       found = true;
     }
   });
-  
   return found;
+}
+
+function percentage(fraction,total){
+    var x = (100 * fraction);
+    var y = (x/total);
+    var perc = Math.round(y);
+    return perc;
 }
 
 function getTweetUrl(user,tweet){
@@ -91,7 +95,6 @@ tw.on('tweet',function(tweet){
   
    // track last tweet sent so we can make sure it is only sent once
    // Twitter streaming API has a habit of sending duplicate tweets through
-   
   if(lastTweetId === null){
     lastTweetId = tweet.id_str;
   }
@@ -112,11 +115,9 @@ tw.on('tweet',function(tweet){
     // calculate time since data started coming through
     var timenow = Math.floor(Date.now() / 1000);
     var elapsedtime = (timenow - startTime); 
-
-    // console.log("score: " + tweetSentiment.score);
-    // console.log("total: " +adjustedScore);
-    // console.log("seconds: " +elapsedtime);
-    // console.log(tweet.user.id_str);
+    //console.log(elapsedtime);
+    var persecond = (totalTweets/elapsedtime).toFixed(2);
+    //console.log(persecond);
     
     var positiveTweet = false;
     var negativeTweet = false;
@@ -124,7 +125,7 @@ tw.on('tweet',function(tweet){
     if(tweetSentiment.score > 0){
       positive+=1;
 
-      if(tweetSentiment.score > 8){
+      if(tweetSentiment.score > 6){
         positiveTweet = true;
       }
 
@@ -167,6 +168,8 @@ tw.on('tweet',function(tweet){
     }
     
 
+
+
     // emit streamed results to frontend socket
     io.emit('scores',{
       tweet: tweet,
@@ -174,7 +177,11 @@ tw.on('tweet',function(tweet){
       totalTweets: totalTweets,
       positive: positive,
       neutral: neutral,
-      negative: negative
+      negative: negative,
+      positivePerc: percentage(positive,totalTweets),
+      neutralPerc: percentage(neutral,totalTweets),
+      negativePerc: percentage(negative,totalTweets),
+      persecond: persecond
     });
 
   } 

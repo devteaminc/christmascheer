@@ -1,11 +1,18 @@
-var g = new JustGage({
-    id: "gauge",
-    value: 0,
-    min: 0,
-    max: +3,
-    title: "Christmas Cheer",
-    relativeGaugeSize: true
-});
+// Get context with jQuery - using jQuery's .get() method.
+var ctx = $("#myChart").get(0).getContext("2d");
+
+
+var data = {
+    labels: ["Negative", "Neutral", "Positive"],
+    datasets: [
+        {
+            data: [0, 0, 0]
+        },
+    ]
+};
+
+// This will get the first returned node in the jQuery collection.
+var myBarChart = new Chart(ctx).Bar(data);
 
 var sentimentStore = 0;
 
@@ -14,10 +21,20 @@ socket.on('scores', function (data) {
 
         // only refresh graph if score has changed
         if(data.sentiment != sentimentStore){
-            g.refresh(data.sentiment);
+            
+            myBarChart.datasets[0].bars[0].value = data.negative;
+            myBarChart.datasets[0].bars[1].value = data.neutral;
+            myBarChart.datasets[0].bars[2].value = data.positive;
+            
+            // Would update the first dataset's value of 'March' to be 50
+            myBarChart.update();
             sentimentStore = data.sentiment;
         }
-        document.getElementById('tweetTotal').innerHTML = data.totalTweets;
+        $('#tweetTotal').html(data.totalTweets);
+        $('#tweetPerSecond').html(data.persecond);
+        $('#negativeTotal').html(data.negative);
+        $('#neutralTotal').html(data.neutral);
+        $('#positiveTotal').html(data.positive);
     }
 
 );
@@ -58,4 +75,11 @@ function prependListItem(listName, listItemHTML){
         .prependTo('#' + listName)
         .slideDown('slow')
         .animate({opacity: 1.0});
+}
+
+function percentage(fraction,total){
+    var x = (100 * fraction);
+    var y = (x/total);
+    var perc = Math.round(y);
+    return perc;
 }
