@@ -23,20 +23,39 @@ socket.on('scores', function (data) {
 );
 
 socket.on('positive-tweet', function (data) {
-    document.getElementById('positive-tweet').style.display = 'none';
-    document.getElementById('positive-tweet').innerHTML = data.positiveTweet;
+
+    if($('#positive-tweet li img').is(':visible')){
+        $('#positive-tweet li').remove();
+    }
+    var tweetId = 'tweet-'+ data.tweetId;
+    var newTweet = '<li id="'+tweetId+'">'+data.positiveTweet+'</li>';
+    prependListItem('positive-tweet',newTweet);
+    $('#'+tweetId).next().css('opacity',0.75);
     twttr.widgets.load(
-      document.getElementById("positive-tweet")
+      document.getElementById(tweetId)
     );
-    document.getElementById('positive-tweet').style.display = '';
 });
 
 
 socket.on('negative-tweet', function (data) {
-    document.getElementById('negative-tweet').style.display = 'none';
-    document.getElementById('negative-tweet').innerHTML = data.negativeTweet;
+
+    if($('#negative-tweet li img').is(':visible')){
+        $('#negative-tweet li').remove();
+    }
+    var tweetId = 'tweet-'+ data.tweetId;
+    var newTweet = '<li id="'+tweetId+'">'+data.negativeTweet+'</li>';
+    prependListItem('negative-tweet',newTweet);
+    $('#'+tweetId).next().css('opacity',0.75);
     twttr.widgets.load(
-      document.getElementById("negative-tweet")
+      document.getElementById(tweetId)
     );
-    document.getElementById('negative-tweet').style.display = '';
 });
+
+function prependListItem(listName, listItemHTML){
+    $(listItemHTML)
+        .hide()
+        .css('opacity',0.0)
+        .prependTo('#' + listName)
+        .slideDown('slow')
+        .animate({opacity: 1.0});
+}

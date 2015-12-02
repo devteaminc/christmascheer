@@ -9,8 +9,9 @@ block content
 	div.row
 		div.col-md-4.text-center
 			h2 Good Vibes
-			div#positive-tweet.tweet
-				img(src='/images/loading.gif')
+			ul#positive-tweet.tweet.list-unstyled
+				li
+					img(src='/images/loading.gif')
 		div.col-md-4
 			div#gauge
 			p.lead.text-center 
@@ -19,11 +20,13 @@ block content
 				|  tweets
 		div.col-md-4.text-center
 			h2 Bad Vibes
-			div#negative-tweet.tweet
-				img(src='/images/loading.gif')
+			ul#negative-tweet.tweet.list-unstyled
+				li
+					img(src='/images/loading.gif')
 
 
 	script(src='/socket.io/socket.io.js')
+	script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
 	script(src='//cdn.jsdelivr.net/raphael/2.1.2/raphael-min.js')
 	script(src='//cdn.jsdelivr.net/justgage/1.0.1/justgage.min.js')
 	script(src='/javascript/front.js')

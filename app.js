@@ -144,7 +144,7 @@ tw.on('tweet',function(tweet){
       var tweetstr = getTweetUrl(tweet.user.screen_name,tweet.id_str);
 
 
-      request('https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url='+tweetstr, function (error, response, body) {
+      request('https://api.twitter.com/1/statuses/oembed.json?hide_media=true&omit_script=true&url='+tweetstr, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             var info = JSON.parse(body);
@@ -152,11 +152,13 @@ tw.on('tweet',function(tweet){
 
             if(positiveTweet === true){
               io.emit('positive-tweet',{
-                  positiveTweet: embed
+                  positiveTweet: embed,
+                  tweetId: tweet.id_str
               });  
             } else {
               io.emit('negative-tweet',{
-                  negativeTweet: embed
+                  negativeTweet: embed,
+                  tweetId: tweet.id_str
               });  
             }
         }
