@@ -48,6 +48,13 @@ function addTweet(name,twId,twContent){
     
     // add element to list
     prependListItem(name+'-tweet',newTweet);
+
+    // prepend to list
+    $(newTweet).hide().prependTo('#'+name+'-tweet').fadeIn();
+
+    // only keep 10 list items    
+    $('#'+name+'-tweet').children('li').slice(10).remove(); 
+
     $('#'+tweetId).next().css('opacity',0.75);
     
     // make sure twitter renders it
@@ -74,19 +81,6 @@ function geoTweet(geo){
     var center = new google.maps.LatLng(lat, lng);
     mapDet.panTo(center);
     mapDet.setZoom(5);
-}
-
-
-function prependListItem(listName, listItemHTML){
-    $(listItemHTML)
-        .hide()
-        .css('opacity',0.0)
-        .prependTo('#' + listName)
-        .slideDown('slow')
-        .animate({opacity: 1.0});
-
-    // only keep 10 list items    
-    $('#' + listName).children('li').slice(10).remove(); 
 }
 
 /*
