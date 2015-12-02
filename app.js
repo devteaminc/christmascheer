@@ -168,9 +168,12 @@ tw.on('tweet',function(tweet){
         }
       });
     }
-    
 
-
+    if(tweet.coordinates !== null){
+      io.emit('geo-tweet',{
+        coordinates: tweet.coordinates.coordinates
+      });
+    }
 
     // emit streamed results to frontend socket
     io.emit('scores',{
@@ -180,9 +183,6 @@ tw.on('tweet',function(tweet){
       positive: positive,
       neutral: neutral,
       negative: negative,
-      positivePerc: percentage(positive,totalTweets),
-      neutralPerc: percentage(neutral,totalTweets),
-      negativePerc: percentage(negative,totalTweets),
       persecond: persecond
     });
 
