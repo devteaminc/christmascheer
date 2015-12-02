@@ -1,38 +1,7 @@
-// Get context with jQuery - using jQuery's .get() method.
-var ctx = $("#myChart").get(0).getContext("2d");
-
-
-var data = {
-    labels: ["Negative", "Neutral", "Positive"],
-    datasets: [
-        {
-            data: [0, 0, 0]
-        },
-    ]
-};
-
-// This will get the first returned node in the jQuery collection.
-var myBarChart = new Chart(ctx).Bar(data);
-myBarChart.datasets[0].bars[0].fillColor = "red"; //bar 1
-myBarChart.datasets[0].bars[1].fillColor = "orange"; //bar 2
-myBarChart.datasets[0].bars[2].fillColor = "green"; //bar 3
-
 var sentimentStore = 0;
 
 var socket = io();
 socket.on('scores', function (data) {
-
-        // only refresh graph if score has changed
-        if(data.sentiment != sentimentStore){
-            
-            myBarChart.datasets[0].bars[0].value = data.negative;
-            myBarChart.datasets[0].bars[1].value = data.neutral;
-            myBarChart.datasets[0].bars[2].value = data.positive;
-            
-            // Would update the first dataset's value of 'March' to be 50
-            myBarChart.update();
-            sentimentStore = data.sentiment;
-        }
         $('#tweetTotal').html(data.totalTweets);
         $('#tweetPerSecond').html(data.persecond);
         $('#negativeTotal').html(data.negative);
@@ -78,6 +47,9 @@ function prependListItem(listName, listItemHTML){
         .prependTo('#' + listName)
         .slideDown('slow')
         .animate({opacity: 1.0});
+
+    // only keep 10 list items    
+    $('#' + listName).children('li').slice(10).remove(); 
 }
 
 function percentage(fraction,total){

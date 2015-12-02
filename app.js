@@ -46,7 +46,9 @@ function spamTweet(sourceString) {
     'contest ',
     'giveaway',
     'giftideas',
-    'perfect gift'
+    'perfect gift',
+    'harry styles',
+    'harry_styles',
   ];
   
   var found = false;

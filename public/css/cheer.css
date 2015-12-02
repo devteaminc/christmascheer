@@ -8,3 +8,7 @@ body{
 	height: 300px;
 	overflow: auto;
 }
+
+#tweetTotal{
+	font-size: 140px;
+}
