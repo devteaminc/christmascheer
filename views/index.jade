@@ -16,21 +16,25 @@ block content
 					img(src='/images/loading.gif')
 		div.col-md-4.text-center
 			h2 Data 🎁 
-			h3#tweetTotal
-			|  total tweets*
-			ul.list-unstyled.text-center
-				li.lead.text-left
-					strong#negativeTotal
-					|  negative tweets
-				li.lead.text-left
-					strong#neutralTotal
-					|  neutral tweets
-				li.lead.text-left
-					strong#positiveTotal
-					|  positive tweets
-				li.lead.text-left
-					strong#tweetPerSecond
-					|   tweets per second
+
+			div.row
+				div#tweetTotal
+				|  total tweets*
+
+			div.row
+				div.col-xs-3
+					p#tweetPerSecond.lead
+					span tweets per second
+				div.col-xs-3
+					p#negativeTotal.lead
+					span negative tweets
+				div.col-xs-3
+					p#neutralTotal.lead
+					span neutral tweets
+				div.col-xs-3
+					p#positiveTotal.lead
+					span positive tweets
+
 		div.col-md-4.text-center
 			h2 Naughty List 😈
 			ul#negative-tweet.tweet.list-unstyled
