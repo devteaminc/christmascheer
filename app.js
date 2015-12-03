@@ -103,6 +103,56 @@ var neutral = 0;
 var negative = 0;
 var startTime = Math.floor(Date.now() / 1000);
 
+
+// total positive scores
+Stat.find({ score: { $gt: 0 }}, function (err, docs) {
+  if (!err && docs !== null){ 
+    positive = docs.length;
+  }
+});
+
+// total negative scores
+Stat.find({ score: { $lt: 0 }}, function (err, docs) {
+  if (!err && docs !== null){ 
+    negative = docs.length;
+  }
+});
+
+// total neutral scores
+Stat.find({ score: 0 }, function (err, docs) {
+  if (!err && docs !== null){ 
+    neutral = docs.length;
+  }
+});
+
+// oldest record (for start date)
+Stat.findOne({}, {}, { sort: { 'created_at' : 1 } }, function(err, stat) {
+  if (!err && stat !== null){ 
+    startTime = Math.floor(stat.datetime / 1000);
+  }
+});
+
+// total tweets and total score
+Stat.aggregate(
+[
+  {
+    $group : {
+       _id : null,
+       sum: { $sum: "$score"},
+       count: { $sum: 1 }
+    }
+  }
+], function (err, results) {
+    if (err) {
+        console.error(err);
+    } else {
+        if(results.length > 0){
+          totalScore = results[0].sum;
+          totalTweets = results[0].count;
+        }
+    }
+}); 
+
 // track christmas
 tw.track('christmas');
 
@@ -133,11 +183,11 @@ tw.on('tweet',function(tweet){
     // store results in mongo
     var stored = new Stat({
       score: tweetSentiment.score,
-      datetime: Date(),
+      datetime: Date.now(),
       user: tweet.user.screen_name,
       tweetid: tweet.id_str
     }).save();
-    
+
     lastTweetId = tweet.id_str;
     totalTweets += 1;
     totalScore += tweetSentiment.score;
