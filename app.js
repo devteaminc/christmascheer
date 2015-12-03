@@ -43,6 +43,7 @@ var statSchema = new Schema({
     tweetid: Number
 });
 
+// init Stat model
 var Stat = mongoose.model('Stat',statSchema);
 
 // twitter credentials - loaded from .env file when local
