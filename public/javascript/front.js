@@ -48,12 +48,11 @@ function addTweet(name,twId,twContent){
 
     // prepend to list
     $(newTweet).hide().prependTo('#'+name+'-tweet').fadeIn();
+    $('#'+tweetId).next().css('opacity',0.75);
 
     // only keep 10 list items    
     $('#'+name+'-tweet').children('li').slice(10).remove(); 
 
-    $('#'+tweetId).next().css('opacity',0.75);
-    
     // make sure twitter renders it
     twttr.widgets.load(
       document.getElementById(tweetId)
@@ -91,7 +90,7 @@ function initMap() {
         scrollwheel: false,
         center: new google.maps.LatLng(0, 0),
         disableDefaultUI: true,
-        styles: [{"stylers":[{"hue":"#ff1a00"},{"invert_lightness":true},{"saturation":-100},{"lightness":33},{"gamma":0.5}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}]
+        // styles: [{"stylers":[{"hue":"#ff1a00"},{"invert_lightness":true},{"saturation":-100},{"lightness":33},{"gamma":0.5}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}]
     };
 
    mapDet = new google.maps.Map(document.getElementById('map'), mapDetOptions);

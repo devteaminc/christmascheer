@@ -6,6 +6,7 @@ var path = require('path');
 var request = require('request');  
 var favicon = require('serve-favicon');  
 var sentiment = require('sentiment');
+var mongoose = require('mongoose');
 var app = express();  
 var twitter = require('node-tweet-stream');
 var server = http.createServer(app).listen(process.env.PORT || 5000);
@@ -24,6 +25,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 module.exports = app;
+
+// connect to mongodb
+mongoose.connect('mongodb://'+process.env.MONGO_CONNECTION);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  //console.log("open");
+});
+
+// setup mongoose schema
+var Schema = mongoose.Schema;
+var statSchema = new Schema({
+    score: Number,
+    datetime: Date,
+    user: String,
+    tweetid: Number
+});
+
+var Stat = mongoose.model('Stat',statSchema);
 
 // twitter credentials - loaded from .env file when local
 var tw = new twitter({
@@ -109,6 +129,15 @@ tw.on('tweet',function(tweet){
   if(tweet.id_str !== lastTweetId && (isSpamTweet === false) && (isRetweet === false) && (isMention === false) && (isQuoted === false)){
 
     var tweetSentiment = sentiment(tweet.text);
+
+    // store results in mongo
+    var stored = new Stat({
+      score: tweetSentiment.score,
+      datetime: Date(),
+      user: tweet.user.screen_name,
+      tweetid: tweet.id_str
+    }).save();
+    
     lastTweetId = tweet.id_str;
     totalTweets += 1;
     totalScore += tweetSentiment.score;
@@ -117,9 +146,7 @@ tw.on('tweet',function(tweet){
     // calculate time since data started coming through
     var timenow = Math.floor(Date.now() / 1000);
     var elapsedtime = (timenow - startTime); 
-    //console.log(elapsedtime);
     var persecond = (totalTweets/elapsedtime).toFixed(2);
-    //console.log(persecond);
     
     var positiveTweet = false;
     var negativeTweet = false;
