@@ -1,19 +1,10 @@
-body{
-	margin: 50px;
-	padding: 10px 50px 0 50px;
-}
+body {
+  margin: 50px;
+  padding: 10px 50px 0 50px; }
 
-#map{
-	height: 360px;
-	margin-top: 20px;
-}
+#map {
+  height: 360px;
+  margin-top: 20px; }
 
-#gauge{
-	margin-top: -70px;
-	height: 300px;
-	overflow: auto;
-}
-
-#tweetTotal{
-	font-size: 140px;
-}
+#tweetTotal {
+  font-size: 140px; }
