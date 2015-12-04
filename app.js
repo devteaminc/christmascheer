@@ -74,11 +74,12 @@ function spamTweet(sourceString) {
   
   var found = false;
 
-  subStrings.forEach(function(subString) {
-    if (sourceString.toLowerCase().indexOf(subString) !== -1) {
+  for (var j=0; j<subStrings.length; j++) {
+    if (sourceString.toLowerCase().indexOf(subStrings[j]) !== -1) {
       found = true;
+      break;
     }
-  });
+  }
   return found;
 }
 
