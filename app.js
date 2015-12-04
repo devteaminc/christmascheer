@@ -249,7 +249,10 @@ tw.on('tweet',function(tweet){
 
     if(tweet.coordinates !== null){
       io.emit('geo-tweet',{
-        coordinates: tweet.coordinates.coordinates
+        coordinates: tweet.coordinates.coordinates,
+        text: tweet.text,
+        positive: positiveTweet,
+        negative: negativeTweet
       });
     }
 

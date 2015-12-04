@@ -59,7 +59,9 @@ function addTweet(name,twId,twContent){
     );
 }
 
-
+/**
+ * Respond to geo event
+ */
 function geoTweet(geo){
 
     var p = geo.coordinates;
@@ -67,10 +69,22 @@ function geoTweet(geo){
     var lng = p[0];
     var latlng = new google.maps.LatLng(lat, lng);
 
+    // show yellow icon for neutral, red for positive and purple for negative
+    var icon = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+    if(geo.positive === true || geo.negative === true){
+        if(geo.positive === true){
+            icon = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+        } else {
+            icon = "http://maps.google.com/mapfiles/ms/icons/purple-dot.png";
+        }
+    }
+
     // add to 'Detail' map
     var marker = new google.maps.Marker({
         position: latlng,
         map: mapDet,
+        title: geo.text,
+        icon: icon
     });
 
     // set a new center of the map to latest marker and then pan to there
