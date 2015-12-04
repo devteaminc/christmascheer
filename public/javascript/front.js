@@ -70,12 +70,12 @@ function geoTweet(geo){
     var latlng = new google.maps.LatLng(lat, lng);
 
     // show yellow icon for neutral, red for positive and purple for negative
-    var icon = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+    var icon = "//maps.google.com/mapfiles/ms/icons/yellow-dot.png";
     if(geo.positive === true || geo.negative === true){
         if(geo.positive === true){
-            icon = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+            icon = "//maps.google.com/mapfiles/ms/icons/red-dot.png";
         } else {
-            icon = "http://maps.google.com/mapfiles/ms/icons/purple-dot.png";
+            icon = "//maps.google.com/mapfiles/ms/icons/purple-dot.png";
         }
     }
 
