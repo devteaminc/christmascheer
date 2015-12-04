@@ -48,7 +48,6 @@ function addTweet(name,twId,twContent){
 
     // prepend to list
     $(newTweet).hide().prependTo('#'+name+'-tweet').fadeIn();
-    $('#'+tweetId).next().css('opacity',0.75);
 
     // only keep 10 list items    
     $('#'+name+'-tweet').children('li').slice(10).remove(); 
