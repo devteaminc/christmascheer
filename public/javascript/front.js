@@ -2,14 +2,12 @@ var sentimentStore = 0;
 
 var socket = io();
 socket.on('scores', function (data) {
-        $('#tweetTotal').html(data.totalTweets);
-        $('#tweetPerSecond').html(data.persecond);
-        $('#negativeTotal').html(data.negative);
-        $('#neutralTotal').html(data.neutral);
-        $('#positiveTotal').html(data.positive);
-    }
-
-);
+  $('#tweetTotal').html(data.totalTweets);
+  $('#tweetPerSecond').html(data.persecond);
+  $('#negativeTotal').html(data.negative);
+  $('#neutralTotal').html(data.neutral);
+  $('#positiveTotal').html(data.positive);
+});
 
 // positive tweet event
 socket.on('positive-tweet', function (data) {
@@ -90,28 +88,6 @@ function geoTweet(geo){
     var center = new google.maps.LatLng(lat, lng);
     mapDet.panTo(center);
     mapDet.setZoom(5);
-   
-   var sv = new google.maps.StreetViewService();
-
-   sv.getPanoramaByLocation(latlng, 50, function(data, status) {
-       if (status == 'OK') {
-            $("#pano").show();
-           //google has a streetview image for this locatio, so attach it to the streetview div
-           var panoramaOptions = {
-               pano: data.location.pano,
-               addressControl: false,
-               navigationControl: true,
-               navigationControlOptions: {
-                   style: google.maps.NavigationControlStyle.SMALL
-               }
-           }; 
-           var panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"), panoramaOptions);
-       }
-       else{
-           //no google streetview image for this location, so hide the streetview div
-           $("#pano").hide();
-       }
-   });
 }
 
 /*
@@ -125,7 +101,6 @@ function initMap() {
         scrollwheel: false,
         center: new google.maps.LatLng(0, 0),
         disableDefaultUI: true,
-        // styles: [{"stylers":[{"hue":"#ff1a00"},{"invert_lightness":true},{"saturation":-100},{"lightness":33},{"gamma":0.5}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}]
     };
 
    mapDet = new google.maps.Map(document.getElementById('map'), mapDetOptions);
