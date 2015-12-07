@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 module.exports = app;
 
+/*
 // connect to mongodb
 mongoose.connect('mongodb://'+process.env.MONGO_CONNECTION);
 var db = mongoose.connection;
@@ -45,6 +46,7 @@ var statSchema = new Schema({
 
 // init Stat model
 var Stat = mongoose.model('Stat',statSchema);
+*/
 
 // twitter credentials - loaded from .env file when local
 var tw = new twitter({
@@ -105,7 +107,7 @@ var neutral = 0;
 var negative = 0;
 var startTime = Math.floor(Date.now() / 1000);
 
-
+/*
 // total positive scores
 Stat.find({ score: { $gt: 0 }}, function (err, docs) {
   if (!err && docs !== null){ 
@@ -154,6 +156,7 @@ Stat.aggregate(
         }
     }
 }); 
+*/
 
 // track christmas
 tw.track('christmas');
