@@ -72,6 +72,8 @@ function spamTweet(sourceString) {
     'perfect gift',
     'harry styles',
     'harry_styles',
+    'NiallOfficial',
+    'Louis_Tomlinson',
   ];
   
   var found = false;
