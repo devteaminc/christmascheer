@@ -90,6 +90,12 @@ function geoTweet(geo){
     var center = new google.maps.LatLng(lat, lng);
     mapDet.panTo(center);
     mapDet.setZoom(5);
+
+    var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById("pano"), {
+        position: latlng
+      });
+    mapDet.setStreetView(panorama);
 }
 
 /*
