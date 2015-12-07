@@ -84,8 +84,8 @@ function geoTweet(geo){
 
     // set a new center of the map to latest marker and then pan to there
     var center = new google.maps.LatLng(lat, lng);
-    mapDet.panTo(center);
-    mapDet.setZoom(5);
+    map.panTo(center);
+    map.setZoom(5);
 }
 
 /*
