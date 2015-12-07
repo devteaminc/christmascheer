@@ -156,6 +156,7 @@ Stat.aggregate(
         }
     }
 }); 
+
 */
 
 // track christmas
@@ -186,12 +187,12 @@ tw.on('tweet',function(tweet){
     var tweetSentiment = sentiment(tweet.text);
 
     // store results in mongo
-    var stored = new Stat({
-      score: tweetSentiment.score,
-      datetime: Date.now(),
-      user: tweet.user.screen_name,
-      tweetid: tweet.id_str
-    }).save();
+    // var stored = new Stat({
+    //   score: tweetSentiment.score,
+    //   datetime: Date.now(),
+    //   user: tweet.user.screen_name,
+    //   tweetid: tweet.id_str
+    // }).save();
 
     lastTweetId = tweet.id_str;
     totalTweets += 1;
