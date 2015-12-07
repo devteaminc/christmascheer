@@ -28,14 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 module.exports = app;
 
-// twitter credentials - loaded from .env file when local
-var tw = new twitter({
-  consumer_key: process.env.consumer_key,
-  consumer_secret: process.env.consumer_secret,
-  token: process.env.access_token,
-  token_secret: process.env.access_token_secret
-});
-
 // utility vars
 var tweeturl = "http://twitter.com/{USER}/status/{TWEET_ID}";
 var embedurl = "https://api.twitter.com/1/statuses/oembed.json?conversation=none&omit_script=true&url=";
@@ -55,6 +47,14 @@ var startTime = Math.floor(Date.now() / 1000);
 var positiveThreshold = 6;
 var negativeThreshold = -5;
 
+// twitter credentials - loaded from .env file when local
+var tw = new twitter({
+  consumer_key: process.env.consumer_key,
+  consumer_secret: process.env.consumer_secret,
+  token: process.env.access_token,
+  token_secret: process.env.access_token_secret
+});
+
 // track christmas
 tw.track(trackingTerm);
 
@@ -66,7 +66,6 @@ tw.on('error', function (err) {
 // tweet event
 tw.on('tweet',function(tweet){
 
-  
    // track last tweet sent so we can make sure it is only sent once
    // Twitter streaming API has a habit of sending duplicate tweets through
   if(lastTweetId === null){

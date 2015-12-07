@@ -1,6 +1,7 @@
 var sentimentStore = 0;
-
 var socket = io();
+var map;
+
 socket.on('scores', function (data) {
   $('#tweetTotal').html(data.totalTweets);
   $('#tweetPerSecond').html(data.persecond);
@@ -27,9 +28,6 @@ socket.on('geo-tweet', function (data) {
 
 /**
  * Add a tweet to the page
- * @param {string} name      label (negative or positive)
- * @param {string} twId      id_str of tweet
- * @param {string} twContent text content of tweet
  */
 function addTweet(name,twId,twContent){
 
@@ -76,10 +74,10 @@ function geoTweet(geo){
         }
     }
 
-    // add to 'Detail' map
+    // add to map
     var marker = new google.maps.Marker({
         position: latlng,
-        map: mapDet,
+        map: map,
         title: geo.text,
         icon: icon
     });
@@ -91,11 +89,10 @@ function geoTweet(geo){
 }
 
 /*
- * Initialise the map
+ * Initialise the map (callback from script embed)
  */
-var mapDet;
 function initMap() {
-    var mapDetOptions = {
+    var mapOptions = {
         zoom: 2,
         draggable: false,
         scrollwheel: false,
@@ -103,5 +100,5 @@ function initMap() {
         disableDefaultUI: true,
     };
 
-   mapDet = new google.maps.Map(document.getElementById('map'), mapDetOptions);
+   map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
