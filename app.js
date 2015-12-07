@@ -1,5 +1,5 @@
-// load environment variables
-require('dotenv').load();
+// load NPM based modules
+require('dotenv').load(); // load environment variables
 var http = require('http'); 
 var express = require('express');
 var path = require('path');
@@ -10,6 +10,9 @@ var app = express();
 var twitter = require('node-tweet-stream');
 var server = http.createServer(app).listen(process.env.PORT || 5000);
 var io = require('socket.io').listen(server);
+
+// load my modules
+var spamtweet = require('./modules/spamtweet');
 
 // routes
 var routes = require('./routes/index');
@@ -32,38 +35,6 @@ var tw = new twitter({
   token: process.env.access_token,
   token_secret: process.env.access_token_secret
 });
-
-// check tweet text against various spammy terms
-function spamTweet(sourceString) {
-  var subStrings = [
-    'competition',
-    'rt & follow',
-    'rt &amp; follow',
-    'rt & follow',
-    'rt + follow',
-    'retweet & follow',
-    'retweet',
-    'win ',
-    'contest ',
-    'giveaway',
-    'giftideas',
-    'perfect gift',
-    'harry styles',
-    'harry_styles',
-    'niallofficial',
-    'louis_tomlinson',
-  ];
-  
-  var found = false;
-
-  for (var j=0; j<subStrings.length; j++) {
-    if (sourceString.toLowerCase().indexOf(subStrings[j]) !== -1) {
-      found = true;
-      break;
-    }
-  }
-  return found;
-}
 
 // utility vars
 var tweeturl = "http://twitter.com/{USER}/status/{TWEET_ID}";
@@ -103,7 +74,7 @@ tw.on('tweet',function(tweet){
   }
 
   // check tweet against various spam parameters
-  var isSpamTweet = spamTweet(tweet.text);
+  var isSpamTweet = spamtweet(tweet.text);
   var isRetweet = (tweet.retweeted_status !== undefined) ? true : false;
   var isQuoted = (tweet.quoted_status_id !== undefined) ? true : false;
   var isMention = (tweet.text.charAt(0) === '@') ? true : false;
