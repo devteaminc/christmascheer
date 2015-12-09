@@ -1,15 +1,14 @@
 var sentimentStore = 0;
-
 var socket = io();
-socket.on('scores', function (data) {
-        $('#tweetTotal').html(data.totalTweets);
-        $('#tweetPerSecond').html(data.persecond);
-        $('#negativeTotal').html(data.negative);
-        $('#neutralTotal').html(data.neutral);
-        $('#positiveTotal').html(data.positive);
-    }
+var map;
 
-);
+socket.on('scores', function (data) {
+  $('#tweetTotal').html(data.totalTweets);
+  $('#tweetPerSecond').html(data.persecond);
+  $('#negativeTotal').html(data.negative);
+  $('#neutralTotal').html(data.neutral);
+  $('#positiveTotal').html(data.positive);
+});
 
 // positive tweet event
 socket.on('positive-tweet', function (data) {
@@ -29,9 +28,6 @@ socket.on('geo-tweet', function (data) {
 
 /**
  * Add a tweet to the page
- * @param {string} name      label (negative or positive)
- * @param {string} twId      id_str of tweet
- * @param {string} twContent text content of tweet
  */
 function addTweet(name,twId,twContent){
 
@@ -78,48 +74,25 @@ function geoTweet(geo){
         }
     }
 
-    // add to 'Detail' map
+    // add to map
     var marker = new google.maps.Marker({
         position: latlng,
-        map: mapDet,
+        map: map,
         title: geo.text,
         icon: icon
     });
 
     // set a new center of the map to latest marker and then pan to there
     var center = new google.maps.LatLng(lat, lng);
-    mapDet.panTo(center);
-    mapDet.setZoom(5);
-   
-   var sv = new google.maps.StreetViewService();
-
-   sv.getPanoramaByLocation(latlng, 50, function(data, status) {
-       if (status == 'OK') {
-            $("#pano").show();
-           //google has a streetview image for this locatio, so attach it to the streetview div
-           var panoramaOptions = {
-               pano: data.location.pano,
-               addressControl: false,
-               navigationControl: true,
-               navigationControlOptions: {
-                   style: google.maps.NavigationControlStyle.SMALL
-               }
-           }; 
-           var panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"), panoramaOptions);
-       }
-       else{
-           //no google streetview image for this location, so hide the streetview div
-           $("#pano").hide();
-       }
-   });
+    map.panTo(center);
+    map.setZoom(5);
 }
 
 /*
- * Initialise the map
+ * Initialise the map (callback from script embed)
  */
-var mapDet;
 function initMap() {
-    var mapDetOptions = {
+    var mapOptions = {
         zoom: 2,
         draggable: false,
         scrollwheel: false,
@@ -412,5 +385,5 @@ function initMap() {
         ]
     };
 
-   mapDet = new google.maps.Map(document.getElementById('map'), mapDetOptions);
+   map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
