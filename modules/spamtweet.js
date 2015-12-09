@@ -18,7 +18,8 @@ module.exports = function(sourceString) {
     'niallofficial',
     'louis_tomlinson',
     'real_liam_payne',
-    'burn victim' // not spam but not negative either and gets flagged as such
+    'burn victim', // not spam but not negative either and gets flagged as such
+    'arson'  // see above
   ];
   
   var found = false;
