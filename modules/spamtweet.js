@@ -13,16 +13,7 @@ module.exports = function(sourceString) {
     'giveaway',
     'giftideas',
     'perfect gift',
-    '% off',
-    'harry styles',
-    'harry_styles',
-    'niallofficial',
-    'louis_tomlinson',
-    'real_liam_payne',
-    'burn victim', // lots of tweets about this little girl which we don't want to show
-    'arson',  // see above
-    'burned little girl',  // see above
-    'little girl',  // see above
+    '% off'
   ];
   
   var found = false;
