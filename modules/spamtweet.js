@@ -13,6 +13,7 @@ module.exports = function(sourceString) {
     'giveaway',
     'giftideas',
     'perfect gift',
+    '% off',
     'harry styles',
     'harry_styles',
     'niallofficial',
