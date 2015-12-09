@@ -6,7 +6,6 @@ An experiment into live sentiment analysis of tweets mentioning Christmas
 
  - Node / NPM
  - Gulp
- - MongoDB
  - Heroku
 
 **Notes**
