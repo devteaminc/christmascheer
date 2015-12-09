@@ -6,10 +6,11 @@ module.exports = function(sourceString) {
     'niallofficial',
     'louis_tomlinson',
     'real_liam_payne',
-    'burn victim', // lots of tweets about this little girl which we don't want to show
-    'arson',  // see above
-    'burned little girl',  // see above
-    'little girl',  // see above
+    'burn victim',        // lots of tweets about this little girl which we don't want to show
+    'arson',              // see above
+    'burned little girl', // see above
+    'little girl',        // see above
+    'burned in fire',     // see above
   ];
   
   var found = false;
