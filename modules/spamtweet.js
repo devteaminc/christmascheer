@@ -6,6 +6,7 @@ module.exports = function(sourceString) {
     'rt &amp; follow',
     'rt & follow',
     'rt + follow',
+    'rt to enter',
     'retweet & follow',
     'retweet',
     'win ',
