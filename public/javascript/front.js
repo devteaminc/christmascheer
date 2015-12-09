@@ -3,11 +3,11 @@ var socket = io();
 var map;
 
 socket.on('scores', function (data) {
-  $('#tweetTotal').html(data.totalTweets);
+  $('#tweetTotal').html(data.totalTweets.toLocaleString());
   $('#tweetPerSecond').html(data.persecond);
-  $('#negativeTotal').html(data.negative);
-  $('#neutralTotal').html(data.neutral);
-  $('#positiveTotal').html(data.positive);
+  $('#negativeTotal').html(data.negative.toLocaleString());
+  $('#neutralTotal').html(data.neutral.toLocaleString());
+  $('#positiveTotal').html(data.positive.toLocaleString());
 });
 
 // positive tweet event
