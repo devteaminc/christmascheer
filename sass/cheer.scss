@@ -1,18 +1,131 @@
+// Font Families
+
+$primary-font   : 'Oswald', helvetica;
+$secondary-font : 'Spinnaker', helvetica;
+
+@font-face{ font-family: 'Oswald'; src: url('/fonts/oswald-bold-webfont.eot'); src: url('/fonts/oswald-bold-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/oswald-bold-webfont.woff') format('woff'), url('/fonts/oswald-bold-webfont.ttf') format('truetype'), url('/fonts/oswald-bold-webfont.svg#webfont') format('svg');}
+@font-face{ font-family: 'Spinnaker'; src: url('/fonts/spinnaker-regular-webfont.eot'); src: url('/fonts/spinnaker-regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/spinnaker-regular-webfont.woff') format('woff'), url('/fonts/spinnaker-regular-webfont.ttf') format('truetype'), url('/fonts/spinnaker-regular-webfont.svg#webfont') format('svg');}
+
+//Colours
+
 body{
-	margin: 50px;
-	padding: 10px 50px 0 50px;
+	margin: 0px;
+	padding: 0px 50px 0 50px;
+	background: #b7dee4 url(/images/snow_bg.png);
+	font-family: $primary-font;
+	text-transform: uppercase;
+	-webkit-font-smoothing: antialiased;
+	color: #1e3c40;
+}
+h1 { 
+	font-size: 48px;
+}
+
+h2 {
+	font-size: 24px;
+	font-family: $secondary-font;
+}
+
+h3 {
+	color: #c70c1e;
+	font-family: $secondary-font;
+}
+
+h4 { 
+	font-size: 18px;
+	color: #c70c1e;
+	font-family: $secondary-font;
+}
+
+.row {
+	clear: both;
+}
+
+.col-md-4 {
+	padding: 0 20px;
 }
 
 #map{
 	height: 360px;
 	margin-top: 20px;
+	border: 10px solid #fff;
 }
 
 #pano{
 	height: 360px;
 	margin-top: 20px;
+	border: 10px solid #fff;
+}
+#devTeamLogo {
+	width: 204px;
+	height: 76px;
+	background-image: url(/images/devteam_logo.png);
+	background-size: 204px;
+	text-indent: -200%;
+	overflow: hidden;
+	margin: 0 auto 10px;
 }
 
 #tweetTotal{
-	font-size: 140px;
+	font-size: 120px;
+}
+
+.overview {
+	border: 5px solid #9cccd4;
+	border-width: 5px 0;
+	padding:10px 0;
+	margin:10px 0;
+
+	span {
+		font-family: $secondary-font;
+		font-size: 16px;
+	}
+
+}
+#tweetPerSecond, #neutralTotal {
+	font-size: 30px;
+}
+.title {
+
+	margin: 0 auto 20px;
+
+	img { 
+		width: 100%;
+	}
+}
+
+#positiveTotal, #negativeTotal {
+	font-size: 60px;
+}
+.totalSub {
+	font-size: 24px;
+	color: #619aa4;
+}
+
+.tweetsHeading {
+	img { 
+		width: 100%
+	}
+}
+
+iframe {
+	margin: 0 auto;
+}
+img.negative {
+	-moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
+}
+img.loading {
+	margin: 10px
+}
+
+.footer {
+	font-family: $secondary-font;
+	text-transform: lowercase;
+	font-size: 12px;
+	text-align: center;
 }

@@ -1,51 +1,52 @@
 extends layout
 
 block headcontent
-	link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==', crossorigin='anonymous')
+
 	script
 		include partials/twitter.js
 
 block content
-	h1.text-center Christmas Cheer
-		span.lead  live sentiment analysis of tweets about Christmas 
-	div.row
-		div.col-md-4.text-center
-			h2 Nice List 🎅
+
+	.row
+		.col-md-4.col-md-push-4.text-center.total
+	
+			h1.text-center.title 
+				img(src='/images/shield.svg')
+			.row
+				#tweetTotal
+				h3 Total Christmas tweets*
+			.row.overview
+				.col-xs-6
+					p#tweetPerSecond
+					span tweets per second
+				.col-xs-6
+					p#neutralTotal
+					span neutral tweets
+			.row
+				#map
+				#pano
+				h4 Merry Christmas (or not) from
+				p#devTeamLogo DevTeam inc
+		.col-md-4.col-md-pull-4.text-center.positive
+			h2.tweetsHeading 
+				img(src='/images/positive_tweets.svg')
+			p#positiveTotal
+			p.totalSub Ho Ho Ho!
+			img.positive(src='/images/thumb.svg')
 			ul#positive-tweet.tweet.list-unstyled
 				li
-					img(src='/images/loading.gif')
-		div.col-md-4.text-center
-			h2 Data 🎁 
-
-			div.row
-				div#tweetTotal
-				|  total tweets*
-
-			div.row
-				div.col-xs-3
-					p#tweetPerSecond.lead
-					span tweets per second
-				div.col-xs-3
-					p#negativeTotal.lead
-					span negative tweets
-				div.col-xs-3
-					p#neutralTotal.lead
-					span neutral tweets
-				div.col-xs-3
-					p#positiveTotal.lead
-					span positive tweets
-
-			div.row
-				div#map
-				div#pano
-
-		div.col-md-4.text-center
-			h2 Naughty List 😈
+					img.loading(src='/images/loading.gif')
+		.col-md-4.text-center.negative
+			h2.tweetsHeading 
+				img(src='/images/negative_tweets.svg')
+			p#negativeTotal
+			p.totalSub No No No!
+			img.negative(src='/images/thumb.svg')
 			ul#negative-tweet.tweet.list-unstyled
 				li
-					img(src='/images/loading.gif')
+					img.loading(src='/images/loading.gif')
 
-
+	p.footer Disclaimer, so we don’t have a bad Christmas! These tweets are being provided for information purposes only, they do not constitute an endorsement or an approval by Devteam Inc. of any of the products, services or opinions of the individuals, organisations or companies shown. Devteam Inc. bears no responsibility for the accuracy, legality or content of the tweets and/or links to external sites.
 	script(src='/socket.io/socket.io.js')
 	script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
 	script(src='/javascript/front.js')
