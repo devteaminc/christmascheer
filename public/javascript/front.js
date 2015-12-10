@@ -69,15 +69,15 @@ function geoTweet(geo){
     var latlng = new google.maps.LatLng(lat, lng);
 
     // show yellow icon for neutral, red for positive and purple for negative
-    var icon = "//maps.google.com/mapfiles/ms/icons/blue-dot.png";
+    var icon = "/images/map_pin_neutral.png";
     var classname = "neutral";
     if(geo.positive === true || geo.negative === true){
         if(geo.positive === true){
             classname = "postive";
-            icon = "//maps.google.com/mapfiles/ms/icons/red-dot.png";
+            icon = "/images/map_pin_positive.png";
         } else {
             classname = "negative";
-            icon = "//maps.google.com/mapfiles/ms/icons/purple-dot.png";
+            icon = "/images/map_pin_negative.png";
         }
     }
 
@@ -88,8 +88,6 @@ function geoTweet(geo){
         title: geo.text,
         icon: icon
     });
-
-    console.log(classname);
 
     marker.info = new google.maps.InfoWindow({
       content: '<div class="map-thumb"><img src="/images/thumb.svg" class="'+ classname +' small" /></div><div class="map-text">' + geo.text+' </div>',
