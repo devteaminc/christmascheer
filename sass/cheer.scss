@@ -6,7 +6,6 @@ $secondary-font : 'Spinnaker', helvetica;
 @font-face{ font-family: 'Oswald'; src: url('/fonts/oswald-bold-webfont.eot'); src: url('/fonts/oswald-bold-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/oswald-bold-webfont.woff') format('woff'), url('/fonts/oswald-bold-webfont.ttf') format('truetype'), url('/fonts/oswald-bold-webfont.svg#webfont') format('svg');}
 @font-face{ font-family: 'Spinnaker'; src: url('/fonts/spinnaker-regular-webfont.eot'); src: url('/fonts/spinnaker-regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/spinnaker-regular-webfont.woff') format('woff'), url('/fonts/spinnaker-regular-webfont.ttf') format('truetype'), url('/fonts/spinnaker-regular-webfont.svg#webfont') format('svg');}
 
-//Colours
 
 body{
 	margin: 0px;
@@ -31,12 +30,32 @@ h1 {
 h2 {
 	font-size: 24px;
 	font-family: $secondary-font;
+	margin-bottom: 0;
 }
 
 h3 {
 	color: #c70c1e;
 	font-family: $secondary-font;
+
+	@media ( max-width: 1480px ) {
+
+		font-size: 20px;
+	}
+	@media ( max-width: 1260px ) {
+
+		font-size: 17px;
+	}
+	@media ( max-width: 1080px ) {
+
+		font-size: 15px;
+	}
+	@media ( max-width: 991px ) {
+
+		font-size: 25px;
+	}
 }
+
+
 
 h4 { 
 	font-size: 18px;
@@ -50,6 +69,11 @@ h4 {
 
 .col-md-4 {
 	padding: 0 20px;
+
+	@media ( max-width: 991px ) {
+
+		padding: 0;
+	}
 }
 
 #map{
@@ -82,6 +106,27 @@ p+h3{
 
 #tweetTotal{
 	font-size: 120px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 10;
+
+    @media ( max-width: 991px ) {
+    	
+    	font-size: 17vw;
+		position: relative;
+		left: auto;
+		transform: none;
+	}
+}
+
+#totalChristmasTweets {
+	margin-top: 170px;
+
+	@media ( max-width: 991px ) {
+    	
+    	margin-top:0
+	}
 }
 
 .overview {
@@ -110,6 +155,7 @@ p+h3{
 
 #positiveTotal, #negativeTotal {
 	font-size: 60px;
+	margin-bottom: 0;
 }
 .totalSub {
 	font-size: 24px;
@@ -164,7 +210,7 @@ img.small{
 	width: 30px;
 }
 .map-text{
-	float:right;
-	max-width: 360px;
+	float:left;
+	max-width: 220px;
 	margin-left: 10px;
 }

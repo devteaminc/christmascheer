@@ -27,11 +27,24 @@ h1 {
 
 h2 {
   font-size: 24px;
-  font-family: "Spinnaker", helvetica; }
+  font-family: "Spinnaker", helvetica;
+  margin-bottom: 0; }
 
 h3 {
   color: #c70c1e;
   font-family: "Spinnaker", helvetica; }
+  @media (max-width: 1480px) {
+    h3 {
+      font-size: 20px; } }
+  @media (max-width: 1260px) {
+    h3 {
+      font-size: 17px; } }
+  @media (max-width: 1080px) {
+    h3 {
+      font-size: 15px; } }
+  @media (max-width: 991px) {
+    h3 {
+      font-size: 25px; } }
 
 h4 {
   font-size: 18px;
@@ -43,6 +56,9 @@ h4 {
 
 .col-md-4 {
   padding: 0 20px; }
+  @media (max-width: 991px) {
+    .col-md-4 {
+      padding: 0; } }
 
 #map {
   height: 360px;
@@ -70,7 +86,23 @@ p + h3 {
   margin: 0 auto 10px; }
 
 #tweetTotal {
-  font-size: 120px; }
+  font-size: 120px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 10; }
+  @media (max-width: 991px) {
+    #tweetTotal {
+      font-size: 17vw;
+      position: relative;
+      left: auto;
+      transform: none; } }
+
+#totalChristmasTweets {
+  margin-top: 170px; }
+  @media (max-width: 991px) {
+    #totalChristmasTweets {
+      margin-top: 0; } }
 
 .overview {
   border: 5px solid #9cccd4;
@@ -90,7 +122,8 @@ p + h3 {
     width: 100%; }
 
 #positiveTotal, #negativeTotal {
-  font-size: 60px; }
+  font-size: 60px;
+  margin-bottom: 0; }
 
 .totalSub {
   font-size: 24px;
@@ -137,6 +170,6 @@ img.small {
   width: 30px; }
 
 .map-text {
-  float: right;
-  max-width: 360px;
+  float: left;
+  max-width: 220px;
   margin-left: 10px; }
