@@ -17,6 +17,13 @@ body{
 	-webkit-font-smoothing: antialiased;
 	color: #1e3c40;
 }
+
+p.about{
+	font-family: $secondary-font;
+	text-align: justify;
+	text-transform: none;
+}
+
 h1 { 
 	font-size: 48px;
 }
@@ -48,7 +55,14 @@ h4 {
 #map{
 	height: 360px;
 	margin-top: 20px;
+	margin-bottom: 30px;
 	border: 10px solid #fff;
+	text-transform: none;
+	text-align: left;
+}
+
+p+h3{
+	margin-top: 30px;
 }
 
 #pano{
@@ -119,6 +133,17 @@ img.negative {
     filter: FlipV;
     -ms-filter: "FlipV";
 }
+
+img.neutral {
+	-moz-transform: scaleY(-1) rotate(90deg); 
+	-o-transform: scaleY(-1) rotate(90deg);
+	-webkit-transform: scaleY(-1) rotate(90deg);
+	transform: scaleY(-1) rotate(90deg);
+	filter: FlipV;
+	-ms-filter: "FlipV";
+	-ms-transform: rotate(90deg);
+}
+
 img.loading {
 	margin: 10px
 }
@@ -128,4 +153,18 @@ img.loading {
 	text-transform: lowercase;
 	font-size: 12px;
 	text-align: center;
+}
+
+img.small{
+	width: 30px;
+	height: 30px;
+}
+.map-thumb{
+	float:left;
+	width: 30px;
+}
+.map-text{
+	float:right;
+	max-width: 360px;
+	margin-left: 10px;
 }

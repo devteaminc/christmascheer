@@ -1,6 +1,7 @@
 var sentimentStore = 0;
 var socket = io();
 var map;
+var infoWindow = false;
 
 socket.on('scores', function (data) {
   $('#tweetTotal').html(data.totalTweets.toLocaleString());
@@ -68,11 +69,14 @@ function geoTweet(geo){
     var latlng = new google.maps.LatLng(lat, lng);
 
     // show yellow icon for neutral, red for positive and purple for negative
-    var icon = "//maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+    var icon = "//maps.google.com/mapfiles/ms/icons/blue-dot.png";
+    var classname = "neutral";
     if(geo.positive === true || geo.negative === true){
         if(geo.positive === true){
+            classname = "postive";
             icon = "//maps.google.com/mapfiles/ms/icons/red-dot.png";
         } else {
+            classname = "negative";
             icon = "//maps.google.com/mapfiles/ms/icons/purple-dot.png";
         }
     }
@@ -84,6 +88,21 @@ function geoTweet(geo){
         title: geo.text,
         icon: icon
     });
+
+    console.log(classname);
+
+    marker.info = new google.maps.InfoWindow({
+      content: '<div class="map-thumb"><img src="/images/thumb.svg" class="'+ classname +' small" /></div><div class="map-text">' + geo.text+' </div>',
+      maxWidth: 400
+    });
+    
+    if(infoWindow !== false){
+      infoWindow.close();
+    }
+
+    marker.info.open(map, marker);
+
+    infoWindow = marker.info;
 
     // set a new center of the map to latest marker and then pan to there
     var center = new google.maps.LatLng(lat, lng);
