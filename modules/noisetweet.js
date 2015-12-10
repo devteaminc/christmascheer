@@ -11,6 +11,7 @@ module.exports = function(sourceString) {
     'burned little girl', // see above
     'little girl',        // see above
     'burned in fire',     // see above
+    'lost family in fire',     // see above
   ];
   
   var found = false;
